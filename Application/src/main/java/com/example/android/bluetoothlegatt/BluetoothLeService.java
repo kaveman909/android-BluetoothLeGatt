@@ -102,6 +102,13 @@ public class BluetoothLeService extends Service {
             on_off[0] = 1;
             c.setValue(on_off);
             gatt.writeCharacteristic(c);
+            // test code:  read RSSI
+            gatt.readRemoteRssi();
+        }
+
+        @Override
+        public void onReadRemoteRssi(BluetoothGatt gatt, int rssi, int status) {
+            Log.w(TAG, "RSSI: " + rssi);
         }
 
         @Override
