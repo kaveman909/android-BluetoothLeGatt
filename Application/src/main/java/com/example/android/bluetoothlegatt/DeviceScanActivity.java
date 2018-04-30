@@ -40,18 +40,10 @@ import android.util.Log;
 
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-//import android.support.v7.app.AppCompatActivity;
 
 import java.util.ArrayList;
 
-/*
-class AppCompat extends AppCompatActivity {
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-
-    }
-}
-*/
+import static android.bluetooth.BluetoothDevice.BOND_BONDED;
 
 /**
  * Activity for scanning and displaying available Bluetooth LE devices.
@@ -211,14 +203,14 @@ public class DeviceScanActivity extends ListActivity {
             mBluetoothAdapter.stopLeScan(mLeScanCallback);
             mScanning = false;
         }
-        // start bonding
-        //final boolean bondResult = device.createBond();
-        //if (!bondResult) {
-        //    Toast.makeText(getApplicationContext(),
-        //            "Bonding Failed", Toast.LENGTH_LONG).show();
-        //    finish();
-        //    return;
-        //}
+        // check if bonded
+        final int bond_status = device.getBondState();
+        if (bond_status != BOND_BONDED) {
+            Toast.makeText(getApplicationContext(),
+                    "Bond device in Bluetooth Settings", Toast.LENGTH_LONG).show();
+            finish();
+            return;
+        }
         startActivity(intent);
     }
 
