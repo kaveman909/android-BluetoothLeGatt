@@ -24,6 +24,7 @@ import android.bluetooth.BluetoothManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -35,8 +36,22 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.util.Log;
+
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+//import android.support.v7.app.AppCompatActivity;
 
 import java.util.ArrayList;
+
+/*
+class AppCompat extends AppCompatActivity {
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+
+    }
+}
+*/
 
 /**
  * Activity for scanning and displaying available Bluetooth LE devices.
@@ -46,10 +61,50 @@ public class DeviceScanActivity extends ListActivity {
     private BluetoothAdapter mBluetoothAdapter;
     private boolean mScanning;
     private Handler mHandler;
+    private static final int REQUEST_LOCATION = 1;
 
     private static final int REQUEST_ENABLE_BT = 1;
     // Stops scanning after 10 seconds.
     private static final long SCAN_PERIOD = 10000;
+    private static String TAG = "DeviceScanActivity";
+
+    /* Source:  https://github.com/madhurbhargava/AndroidWarehouseMonitor/blob/master/
+     * AndroidWarehouseMonitor/app/src/main/java/android/packt/com/androidwarehousemonitor/
+     * MainActivity.java
+     */
+    private void ensureLocationPermissionIsEnabled() {
+        if (Build.VERSION.SDK_INT >= 23 && ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{
+                    android.Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION);
+            return;
+        }
+    }
+
+    /* Source:  https://github.com/madhurbhargava/AndroidWarehouseMonitor/blob/master/
+     * AndroidWarehouseMonitor/app/src/main/java/android/packt/com/androidwarehousemonitor/
+     * MainActivity.java
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[],
+                                           int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Log.i(TAG, "Permission Granted");
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            "Location Permission Not granted", Toast.LENGTH_LONG).show();
+                    finish();
+                }
+                break;
+            }
+            default:
+        }
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -76,6 +131,7 @@ public class DeviceScanActivity extends ListActivity {
             finish();
             return;
         }
+        ensureLocationPermissionIsEnabled();
     }
 
     @Override
@@ -155,6 +211,14 @@ public class DeviceScanActivity extends ListActivity {
             mBluetoothAdapter.stopLeScan(mLeScanCallback);
             mScanning = false;
         }
+        // start bonding
+        //final boolean bondResult = device.createBond();
+        //if (!bondResult) {
+        //    Toast.makeText(getApplicationContext(),
+        //            "Bonding Failed", Toast.LENGTH_LONG).show();
+        //    finish();
+        //    return;
+        //}
         startActivity(intent);
     }
 
@@ -191,7 +255,7 @@ public class DeviceScanActivity extends ListActivity {
         }
 
         public void addDevice(BluetoothDevice device) {
-            if(!mLeDevices.contains(device)) {
+            if (!mLeDevices.contains(device)) {
                 mLeDevices.add(device);
             }
         }
@@ -249,17 +313,17 @@ public class DeviceScanActivity extends ListActivity {
     private BluetoothAdapter.LeScanCallback mLeScanCallback =
             new BluetoothAdapter.LeScanCallback() {
 
-        @Override
-        public void onLeScan(final BluetoothDevice device, int rssi, byte[] scanRecord) {
-            runOnUiThread(new Runnable() {
                 @Override
-                public void run() {
-                    mLeDeviceListAdapter.addDevice(device);
-                    mLeDeviceListAdapter.notifyDataSetChanged();
+                public void onLeScan(final BluetoothDevice device, int rssi, byte[] scanRecord) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mLeDeviceListAdapter.addDevice(device);
+                            mLeDeviceListAdapter.notifyDataSetChanged();
+                        }
+                    });
                 }
-            });
-        }
-    };
+            };
 
     static class ViewHolder {
         TextView deviceName;
