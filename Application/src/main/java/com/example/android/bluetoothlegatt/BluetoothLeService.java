@@ -96,6 +96,12 @@ public class BluetoothLeService extends Service {
             } else {
                 Log.w(TAG, "onServicesDiscovered received: " + status);
             }
+            // test code:  enable LED
+            BluetoothGattCharacteristic c = gatt.getService(UUID.fromString(SampleGattAttributes.LED_CONTROL)).getCharacteristic(UUID.fromString(SampleGattAttributes.LED_ON_OFF));
+            byte[] on_off = new byte[1];
+            on_off[0] = 1;
+            c.setValue(on_off);
+            gatt.writeCharacteristic(c);
         }
 
         @Override
