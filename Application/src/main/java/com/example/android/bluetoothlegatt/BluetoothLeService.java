@@ -67,6 +67,7 @@ public class BluetoothLeService extends Service {
     public final static UUID UUID_HEART_RATE_MEASUREMENT =
             UUID.fromString(SampleGattAttributes.HEART_RATE_MEASUREMENT);
 
+
     // Implements callback methods for GATT events that the app cares about.  For example,
     // connection change and services discovered.
     private final BluetoothGattCallback mGattCallback = new BluetoothGattCallback() {
@@ -115,12 +116,6 @@ public class BluetoothLeService extends Service {
                     UUID.fromString(SampleGattAttributes.DISC_TOF));
             enableNotifications(gatt, c);
 
-            // test code:  enable LED
-            c = gatt.getService(UUID.fromString(SampleGattAttributes.LED_CONTROL)).getCharacteristic(UUID.fromString(SampleGattAttributes.LED_ON_OFF));
-            byte[] on_off = new byte[1];
-            on_off[0] = 1;
-            c.setValue(on_off);
-            gatt.writeCharacteristic(c);
             // test code:  read RSSI
             gatt.readRemoteRssi();
         }
@@ -151,16 +146,28 @@ public class BluetoothLeService extends Service {
             BluetoothGattCharacteristic c;
 
             if (descriptorCounter == 1) {
-                c = gatt.getService(UUID.fromString(SampleGattAttributes.DISC_STATS)).getCharacteristic(UUID.fromString(SampleGattAttributes.DISC_ANG_AVG));
+                c = gatt.getService(UUID.fromString(SampleGattAttributes.DISC_STATS)).getCharacteristic(
+                        UUID.fromString(SampleGattAttributes.DISC_ANG_AVG));
                 enableNotifications(gatt, c);
             } else if (descriptorCounter == 2) {
-                c = gatt.getService(UUID.fromString(SampleGattAttributes.DISC_STATS)).getCharacteristic(UUID.fromString(SampleGattAttributes.DISC_ANG_RT));
+                c = gatt.getService(UUID.fromString(SampleGattAttributes.DISC_STATS)).getCharacteristic(
+                        UUID.fromString(SampleGattAttributes.DISC_ANG_RT));
                 enableNotifications(gatt, c);
             }
             descriptorCounter += 1;
 
         }
     };
+
+    public void ledEnable() {
+        BluetoothGattCharacteristic c;
+        c = mBluetoothGatt.getService(UUID.fromString(SampleGattAttributes.LED_CONTROL)).getCharacteristic(
+                UUID.fromString(SampleGattAttributes.LED_ON_OFF));
+        byte[] on_off = new byte[1];
+        on_off[0] = 1;
+        c.setValue(on_off);
+        mBluetoothGatt.writeCharacteristic(c);
+    }
 
     private void broadcastUpdate(final String action) {
         final Intent intent = new Intent(action);

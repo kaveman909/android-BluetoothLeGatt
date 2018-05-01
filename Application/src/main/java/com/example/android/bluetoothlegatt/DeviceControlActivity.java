@@ -31,6 +31,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 import android.widget.ExpandableListView;
 import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
@@ -64,6 +67,10 @@ public class DeviceControlActivity extends Activity {
 
     //private final String LIST_NAME = "NAME";
     //private final String LIST_UUID = "UUID";
+
+    // LED Control handles
+    private EditText mLedBlinkRate;
+    private EditText mLedDuration;
 
     // Code to manage Service lifecycle.
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
@@ -155,6 +162,11 @@ public class DeviceControlActivity extends Activity {
         mDataField.setText(R.string.no_data);
     }
     */
+
+    public void ledEnableOnClick(View v) {
+        Toast.makeText(this, "Clicked on Button", Toast.LENGTH_LONG).show();
+        mBluetoothLeService.ledEnable();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
