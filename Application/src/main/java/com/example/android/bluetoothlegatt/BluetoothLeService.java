@@ -47,6 +47,7 @@ public class BluetoothLeService extends Service {
     private String mBluetoothDeviceAddress;
     private BluetoothGatt mBluetoothGatt;
     private int mConnectionState = STATE_DISCONNECTED;
+    private int descriptorCounter = 0;
 
     private static final int STATE_DISCONNECTED = 0;
     private static final int STATE_CONNECTING = 1;
@@ -89,6 +90,16 @@ public class BluetoothLeService extends Service {
             }
         }
 
+        private void enableNotifications(BluetoothGatt gatt, BluetoothGattCharacteristic c) {
+            BluetoothGattDescriptor d;
+            // Enable Local Notifications
+            gatt.setCharacteristicNotification(c, true);
+            // Enable Remote Notifications
+            d = c.getDescriptor(UUID.fromString(SampleGattAttributes.CLIENT_CHARACTERISTIC_CONFIG));
+            d.setValue(BluetoothGattDescriptor.ENABLE_NOTIFICATION_VALUE);
+            gatt.writeDescriptor(d);
+        }
+
         @Override
         public void onServicesDiscovered(BluetoothGatt gatt, int status) {
             if (status == BluetoothGatt.GATT_SUCCESS) {
@@ -96,8 +107,15 @@ public class BluetoothLeService extends Service {
             } else {
                 Log.w(TAG, "onServicesDiscovered received: " + status);
             }
+            // Enable Notifications for Disc Stats
+            BluetoothGattCharacteristic c;
+
+            descriptorCounter += 1;
+            c = gatt.getService(UUID.fromString(SampleGattAttributes.DISC_STATS)).getCharacteristic(UUID.fromString(SampleGattAttributes.DISC_TOF));
+            enableNotifications(gatt, c);
+
             // test code:  enable LED
-            BluetoothGattCharacteristic c = gatt.getService(UUID.fromString(SampleGattAttributes.LED_CONTROL)).getCharacteristic(UUID.fromString(SampleGattAttributes.LED_ON_OFF));
+            c = gatt.getService(UUID.fromString(SampleGattAttributes.LED_CONTROL)).getCharacteristic(UUID.fromString(SampleGattAttributes.LED_ON_OFF));
             byte[] on_off = new byte[1];
             on_off[0] = 1;
             c.setValue(on_off);
@@ -124,6 +142,22 @@ public class BluetoothLeService extends Service {
         public void onCharacteristicChanged(BluetoothGatt gatt,
                                             BluetoothGattCharacteristic characteristic) {
             broadcastUpdate(ACTION_DATA_AVAILABLE, characteristic);
+        }
+
+        @Override
+        public void onDescriptorWrite(BluetoothGatt gatt, BluetoothGattDescriptor descriptor,
+                                      int status) {
+            BluetoothGattCharacteristic c;
+
+            if (descriptorCounter == 1) {
+                c = gatt.getService(UUID.fromString(SampleGattAttributes.DISC_STATS)).getCharacteristic(UUID.fromString(SampleGattAttributes.DISC_ANG_AVG));
+                enableNotifications(gatt, c);
+            } else if (descriptorCounter == 2) {
+                c = gatt.getService(UUID.fromString(SampleGattAttributes.DISC_STATS)).getCharacteristic(UUID.fromString(SampleGattAttributes.DISC_ANG_RT));
+                enableNotifications(gatt, c);
+            }
+            descriptorCounter += 1;
+
         }
     };
 
