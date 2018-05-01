@@ -42,4 +42,9 @@
     <string name="speaker_enable">Enable Speaker</string>
     <string name="speaker_pitch">Speaker Pitch</string>
     <string name="speaker_volume">Speaker Volume</string>
+
+    <string name="write">W</string>
+    <string name="read">R</string>
+    <string name="textbox_width">150dp</string>
+    <string name="layout_height">50dp</string>
 </resources>

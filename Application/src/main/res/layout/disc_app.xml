@@ -9,21 +9,64 @@
         android:layout_height="wrap_content"
         android:text="@string/led_enable" />
 
-    <EditText
-        android:id="@+id/led_blink_rate"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="@string/led_blink_rate" />
+        android:layout_height="@string/layout_height"
+        android:orientation="horizontal">
 
-    <EditText
-        android:id="@+id/led_duration"
+        <EditText
+            android:id="@+id/led_blink_rate"
+            android:layout_width="@string/textbox_width"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="@string/led_blink_rate" />
+
+        <Button
+            android:id="@+id/led_blink_rate_w"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/write" />
+
+        <Button
+            android:id="@+id/led_blink_rate_r"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/read" />
+    </LinearLayout>
+
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="@string/led_duration" />
+        android:layout_height="@string/layout_height"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/led_duration"
+            android:layout_width="@string/textbox_width"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="@string/led_duration" />
+
+        <Button
+            android:id="@+id/led_duration_w"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/write" />
+
+        <Button
+            android:id="@+id/led_duration_r"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/read" />
+    </LinearLayout>
 
     <Button
         android:id="@+id/speaker_enable"
@@ -31,20 +74,66 @@
         android:layout_height="wrap_content"
         android:text="@string/speaker_enable" />
 
-    <EditText
-        android:id="@+id/speaker_pitch"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="@string/speaker_pitch" />
+        android:layout_height="@string/layout_height"
+        android:orientation="horizontal">
 
-    <EditText
-        android:id="@+id/speaker_volume"
+        <EditText
+            android:id="@+id/speaker_pitch"
+            android:layout_width="@string/textbox_width"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="@string/speaker_pitch" />
+
+        <Button
+            android:id="@+id/speaker_pitch_w"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/write" />
+
+        <Button
+            android:id="@+id/speaker_pitch_r"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/read" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="@string/speaker_volume" />
+        android:layout_height="@string/layout_height"
+        android:orientation="horizontal">
 
+        <EditText
+            android:id="@+id/speaker_volume"
+            android:layout_width="@string/textbox_width"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="textPersonName"
+            android:text="@string/speaker_volume" />
+
+        <Button
+            android:id="@+id/speaker_volume_w"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/write" />
+
+        <Button
+            android:id="@+id/speaker_volume_r"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/read" />
+    </LinearLayout>
+
+    <com.jjoe64.graphview.GraphView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:id="@+id/graph" />
 </LinearLayout>
