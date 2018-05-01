@@ -111,7 +111,8 @@ public class BluetoothLeService extends Service {
             BluetoothGattCharacteristic c;
 
             descriptorCounter += 1;
-            c = gatt.getService(UUID.fromString(SampleGattAttributes.DISC_STATS)).getCharacteristic(UUID.fromString(SampleGattAttributes.DISC_TOF));
+            c = gatt.getService(UUID.fromString(SampleGattAttributes.DISC_STATS)).getCharacteristic(
+                    UUID.fromString(SampleGattAttributes.DISC_TOF));
             enableNotifications(gatt, c);
 
             // test code:  enable LED

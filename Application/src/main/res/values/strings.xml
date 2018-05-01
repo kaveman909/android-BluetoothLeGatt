@@ -33,4 +33,13 @@
     <string name="menu_disconnect">Disconnect</string>
     <string name="menu_scan">Scan</string>
     <string name="menu_stop">Stop</string>
+
+    <!-- Disc App -->
+    <string name="led_enable">Flash LED</string>
+    <string name="led_blink_rate">LED Blink Rate</string>
+    <string name="led_duration">LED Duration</string>
+
+    <string name="speaker_enable">Enable Speaker</string>
+    <string name="speaker_pitch">Speaker Pitch</string>
+    <string name="speaker_volume">Speaker Volume</string>
 </resources>
