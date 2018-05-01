@@ -21,22 +21,25 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:text="@string/led_blink_rate" />
+            android:inputType="number"
+            android:text="@string/blank"
+            android:hint="@string/led_blink_rate"/>
 
         <Button
             android:id="@+id/led_blink_rate_w"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/write" />
+            android:text="@string/write"
+            android:onClick="ledBlinkRateWOnClick"/>
 
         <Button
             android:id="@+id/led_blink_rate_r"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/read" />
+            android:text="@string/read"
+            android:onClick="ledBlinkRateROnClick"/>
     </LinearLayout>
 
 
@@ -51,29 +54,33 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:text="@string/led_duration" />
+            android:inputType="number"
+            android:text="@string/blank"
+            android:hint="@string/led_duration"/>
 
         <Button
             android:id="@+id/led_duration_w"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/write" />
+            android:text="@string/write"
+            android:onClick="ledDurationWOnClick"/>
 
         <Button
             android:id="@+id/led_duration_r"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/read" />
+            android:text="@string/read"
+            android:onClick="ledDurationROnClick"/>
     </LinearLayout>
 
     <Button
         android:id="@+id/speaker_enable"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/speaker_enable" />
+        android:text="@string/speaker_enable"
+        android:onClick="speakerEnableOnClick"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -86,22 +93,24 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:text="@string/speaker_pitch" />
+            android:inputType="number"
+            android:hint="@string/speaker_pitch"/>
 
         <Button
             android:id="@+id/speaker_pitch_w"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/write" />
+            android:text="@string/write"
+            android:onClick="speakerPitchWOnClick"/>
 
         <Button
             android:id="@+id/speaker_pitch_r"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/read" />
+            android:text="@string/read"
+            android:onClick="speakerPitchROnClick"/>
     </LinearLayout>
 
     <LinearLayout
@@ -115,22 +124,24 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:inputType="textPersonName"
-            android:text="@string/speaker_volume" />
+            android:inputType="number"
+            android:hint="@string/speaker_volume"/>
 
         <Button
             android:id="@+id/speaker_volume_w"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/write" />
+            android:text="@string/write"
+            android:onClick="speakerVolumeWOnClick"/>
 
         <Button
             android:id="@+id/speaker_volume_r"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/read" />
+            android:text="@string/read"
+            android:onClick="speakerVolumeROnClick"/>
     </LinearLayout>
 
     <com.jjoe64.graphview.GraphView

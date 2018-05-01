@@ -72,6 +72,10 @@ public class DeviceControlActivity extends Activity {
     private EditText mLedBlinkRate;
     private EditText mLedDuration;
 
+    // Speaker Control handles
+    private EditText mSpeakerPitch;
+    private EditText mSpeakerVolume;
+
     // Code to manage Service lifecycle.
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
 
@@ -164,8 +168,11 @@ public class DeviceControlActivity extends Activity {
     */
 
     public void ledEnableOnClick(View v) {
-        Toast.makeText(this, "Clicked on Button", Toast.LENGTH_LONG).show();
         mBluetoothLeService.ledEnable();
+    }
+
+    public void speakerEnableOnClick(View v) {
+        mBluetoothLeService.speakerEnable();
     }
 
     @Override

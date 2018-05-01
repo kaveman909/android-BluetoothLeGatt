@@ -169,6 +169,16 @@ public class BluetoothLeService extends Service {
         mBluetoothGatt.writeCharacteristic(c);
     }
 
+    public void speakerEnable() {
+        BluetoothGattCharacteristic c;
+        c = mBluetoothGatt.getService(UUID.fromString(SampleGattAttributes.SPEAKER_CONTROL)).getCharacteristic(
+                UUID.fromString(SampleGattAttributes.SPEAKER_ON_OFF));
+        byte[] on_off = new byte[1];
+        on_off[0] = 1;
+        c.setValue(on_off);
+        mBluetoothGatt.writeCharacteristic(c);
+    }
+
     private void broadcastUpdate(final String action) {
         final Intent intent = new Intent(action);
         sendBroadcast(intent);
