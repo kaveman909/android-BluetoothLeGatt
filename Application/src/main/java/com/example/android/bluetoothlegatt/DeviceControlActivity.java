@@ -38,6 +38,8 @@ import android.widget.ExpandableListView;
 import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
 
+import com.jjoe64.graphview.GraphView;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -106,6 +108,7 @@ public class DeviceControlActivity extends Activity {
         @Override
         public void onReceive(Context context, Intent intent) {
             final String action = intent.getAction();
+            String extraData = intent.getStringExtra(BluetoothLeService.EXTRA_DATA);
             if (BluetoothLeService.ACTION_GATT_CONNECTED.equals(action)) {
                 mConnected = true;
                 //updateConnectionState(R.string.connected);
@@ -120,6 +123,15 @@ public class DeviceControlActivity extends Activity {
                 //displayGattServices(mBluetoothLeService.getSupportedGattServices());
             } else if (BluetoothLeService.ACTION_DATA_AVAILABLE.equals(action)) {
                 //displayData(intent.getStringExtra(BluetoothLeService.EXTRA_DATA));
+
+            } else if (BluetoothLeService.ACTION_LED_BLINK_RATE.equals(action)) {
+                mLedBlinkRate.setText(extraData);
+            } else if (BluetoothLeService.ACTION_LED_DURATION.equals(action)) {
+                mLedDuration.setText(extraData);
+            } else if (BluetoothLeService.ACTION_SPEAKER_PITCH.equals(action)) {
+                mSpeakerPitch.setText(extraData);
+            } else if (BluetoothLeService.ACTION_SPEAKER_VOLUME.equals(action)) {
+                mSpeakerVolume.setText(extraData);
             }
         }
     };
@@ -167,12 +179,70 @@ public class DeviceControlActivity extends Activity {
     }
     */
 
+    /** OnClick Methods */
+
+
     public void ledEnableOnClick(View v) {
         mBluetoothLeService.ledEnable();
     }
 
     public void speakerEnableOnClick(View v) {
         mBluetoothLeService.speakerEnable();
+    }
+
+
+    private void writeCharacteristicFromEditText(EditText et, String s, String c) {
+        try {
+            byte data_byte = Byte.parseByte(et.getText().toString());
+            byte[] data = new byte[1];
+            data[0] = data_byte;
+            mBluetoothLeService.writeCharacteristic(s, c, data);
+        } catch (NumberFormatException e) {
+            Log.d(TAG, e.getMessage());
+            Toast.makeText(this, "Invalid Input", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void ledBlinkRateROnClick(View v) {
+        mBluetoothLeService.readCharacteristic(SampleGattAttributes.LED_CONTROL,
+                SampleGattAttributes.LED_BLINK_RATE);
+    }
+
+
+    public void ledBlinkRateWOnClick(View v) {
+        writeCharacteristicFromEditText(mLedBlinkRate, SampleGattAttributes.LED_CONTROL,
+                SampleGattAttributes.LED_BLINK_RATE);
+    }
+
+
+    public void ledDurationROnClick(View v) {
+        mBluetoothLeService.readCharacteristic(SampleGattAttributes.LED_CONTROL,
+                SampleGattAttributes.LED_DURATION);
+    }
+
+    public void ledDurationWOnClick(View v) {
+        writeCharacteristicFromEditText(mLedDuration, SampleGattAttributes.LED_CONTROL,
+                SampleGattAttributes.LED_DURATION);
+    }
+
+    public void speakerPitchROnClick(View v) {
+        mBluetoothLeService.readCharacteristic(SampleGattAttributes.SPEAKER_CONTROL,
+                SampleGattAttributes.SPEAKER_PITCH);
+    }
+
+    public void speakerPitchWOnClick(View v) {
+        writeCharacteristicFromEditText(mSpeakerPitch, SampleGattAttributes.SPEAKER_CONTROL,
+                SampleGattAttributes.SPEAKER_PITCH);
+    }
+
+    public void speakerVolumeROnClick(View v) {
+        mBluetoothLeService.readCharacteristic(SampleGattAttributes.SPEAKER_CONTROL,
+                SampleGattAttributes.SPEAKER_VOLUME);
+    }
+
+    public void speakerVolumeWOnClick(View v) {
+        writeCharacteristicFromEditText(mSpeakerVolume, SampleGattAttributes.SPEAKER_CONTROL,
+                SampleGattAttributes.SPEAKER_VOLUME);
     }
 
     @Override
@@ -191,6 +261,12 @@ public class DeviceControlActivity extends Activity {
         //mGattServicesList.setOnChildClickListener(servicesListClickListner);
         //mConnectionState = (TextView) findViewById(R.id.connection_state);
         //mDataField = (TextView) findViewById(R.id.data_value);
+        mLedBlinkRate = findViewById(R.id.led_blink_rate);
+        mLedDuration = findViewById(R.id.led_duration);
+        mSpeakerPitch = findViewById(R.id.speaker_pitch);
+        mSpeakerVolume = findViewById(R.id.speaker_volume);
+
+        GraphView graph = (GraphView) findViewById(R.id.graph);
 
         getActionBar().setTitle(mDeviceName);
         getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -334,6 +410,11 @@ public class DeviceControlActivity extends Activity {
         intentFilter.addAction(BluetoothLeService.ACTION_GATT_DISCONNECTED);
         intentFilter.addAction(BluetoothLeService.ACTION_GATT_SERVICES_DISCOVERED);
         intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
+        // EditText Update Actions
+        intentFilter.addAction(BluetoothLeService.ACTION_LED_BLINK_RATE);
+        intentFilter.addAction(BluetoothLeService.ACTION_LED_DURATION);
+        intentFilter.addAction(BluetoothLeService.ACTION_SPEAKER_PITCH);
+        intentFilter.addAction(BluetoothLeService.ACTION_SPEAKER_VOLUME);
         return intentFilter;
     }
 }

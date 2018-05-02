@@ -36,7 +36,7 @@
 
     <!-- Disc App -->
     <string name="led_enable">Flash LED</string>
-    <string name="led_blink_rate">LED Blink</string>
+    <string name="led_blink_rate">LED Blink Rate</string>
     <string name="led_duration">LED Duration</string>
 
     <string name="speaker_enable">Enable Speaker</string>
