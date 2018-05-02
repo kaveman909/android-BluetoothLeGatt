@@ -42,6 +42,7 @@
     <string name="speaker_enable">Enable Speaker</string>
     <string name="speaker_pitch">Speaker Pitch</string>
     <string name="speaker_volume">Speaker Volume</string>
+    <string name="disc_stat_tof">Time of Flight: </string>
 
     <string name="write">W</string>
     <string name="read">R</string>

@@ -148,4 +148,12 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:id="@+id/graph" />
+
+    <TextView
+        android:id="@+id/disc_stat_tof"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/disc_stat_tof"
+        android:textSize="30dp"/>
+
 </LinearLayout>

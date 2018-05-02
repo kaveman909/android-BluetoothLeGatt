@@ -25,8 +25,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,6 +41,8 @@ import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
 
 import com.jjoe64.graphview.GraphView;
+import com.jjoe64.graphview.series.DataPoint;
+import com.jjoe64.graphview.series.LineGraphSeries;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -77,6 +81,16 @@ public class DeviceControlActivity extends Activity {
     // Speaker Control handles
     private EditText mSpeakerPitch;
     private EditText mSpeakerVolume;
+
+    private TextView mFlightStatTof;
+    private boolean mEndOfFlight = false;
+
+    // Graphing
+    private GraphView mGraph;
+    private LineGraphSeries<DataPoint> mAngVelRtSeries;
+    private LineGraphSeries<DataPoint> mAngVelAvgSeries;
+    private int mGraphDataPointsRt = 0;
+    private int mGraphDataPointsAvg = 0;
 
     // Code to manage Service lifecycle.
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
@@ -132,6 +146,24 @@ public class DeviceControlActivity extends Activity {
                 mSpeakerPitch.setText(extraData);
             } else if (BluetoothLeService.ACTION_SPEAKER_VOLUME.equals(action)) {
                 mSpeakerVolume.setText(extraData);
+            } else if (BluetoothLeService.ACTION_DISC_ANG_RT.equals(action)) {
+                if (mEndOfFlight) {
+                    mEndOfFlight = false;
+                    DataPoint[] resetData = new DataPoint[1];
+                    resetData[0] = new DataPoint(0, 0);
+                    mAngVelRtSeries.resetData(resetData);
+                    mAngVelAvgSeries.resetData(resetData);
+                    mGraphDataPointsAvg = 0;
+                    mGraphDataPointsRt = 0;
+                }
+                mAngVelRtSeries.appendData(new DataPoint(mGraphDataPointsRt, Integer.parseInt(extraData)), true, 40);
+                mGraphDataPointsRt += 1;
+            } else if (BluetoothLeService.ACTION_DISC_ANG_AVG.equals(action)) {
+                mAngVelAvgSeries.appendData(new DataPoint(mGraphDataPointsAvg, Integer.parseInt(extraData)), true, 40);
+                mGraphDataPointsAvg += 1;
+            } else if (BluetoothLeService.ACTION_DISC_TOF.equals(action)) {
+                mFlightStatTof.setText(getString(R.string.disc_stat_tof) + String.format(" %.1fs", ((float)Integer.parseInt(extraData)/2.0)));
+                mEndOfFlight = true;
             }
         }
     };
@@ -265,8 +297,24 @@ public class DeviceControlActivity extends Activity {
         mLedDuration = findViewById(R.id.led_duration);
         mSpeakerPitch = findViewById(R.id.speaker_pitch);
         mSpeakerVolume = findViewById(R.id.speaker_volume);
+        mFlightStatTof = findViewById(R.id.disc_stat_tof);
 
-        GraphView graph = (GraphView) findViewById(R.id.graph);
+        mGraph = findViewById(R.id.graph);
+
+        mAngVelRtSeries = new LineGraphSeries<>();
+        mAngVelRtSeries.setColor(Color.RED);
+
+        mAngVelAvgSeries = new LineGraphSeries<>();
+        mAngVelAvgSeries.setColor(Color.GREEN);
+
+        mGraph.addSeries(mAngVelRtSeries);
+        mGraph.addSeries(mAngVelAvgSeries);
+        mGraph.getViewport().setXAxisBoundsManual(true);
+        mGraph.getViewport().setYAxisBoundsManual(true);
+        mGraph.getViewport().setMinY(-2000);
+        mGraph.getViewport().setMaxY(2000);
+        mGraph.getViewport().setMinX(0);
+        mGraph.getViewport().setMaxX(40);
 
         getActionBar().setTitle(mDeviceName);
         getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -415,6 +463,10 @@ public class DeviceControlActivity extends Activity {
         intentFilter.addAction(BluetoothLeService.ACTION_LED_DURATION);
         intentFilter.addAction(BluetoothLeService.ACTION_SPEAKER_PITCH);
         intentFilter.addAction(BluetoothLeService.ACTION_SPEAKER_VOLUME);
+        // Disc Status
+        intentFilter.addAction(BluetoothLeService.ACTION_DISC_ANG_RT);
+        intentFilter.addAction(BluetoothLeService.ACTION_DISC_ANG_AVG);
+        intentFilter.addAction(BluetoothLeService.ACTION_DISC_TOF);
         return intentFilter;
     }
 }
