@@ -149,12 +149,12 @@ public class DeviceControlActivity extends Activity {
             } else if (BluetoothLeService.ACTION_DISC_ANG_RT.equals(action)) {
                 if (mEndOfFlight) {
                     mEndOfFlight = false;
-                    DataPoint[] resetData = new DataPoint[1];
-                    resetData[0] = new DataPoint(0, 0);
-                    mAngVelRtSeries.resetData(resetData);
-                    mAngVelAvgSeries.resetData(resetData);
-                    mGraphDataPointsAvg = 0;
-                    mGraphDataPointsRt = 0;
+                    //DataPoint[] resetData = new DataPoint[1];
+                    //resetData[0] = new DataPoint(0, 0);
+                    //mAngVelRtSeries.resetData(resetData);
+                    //mAngVelAvgSeries.resetData(resetData);
+                    //mGraphDataPointsAvg = 0;
+                    //mGraphDataPointsRt = 0;
                 }
                 mAngVelRtSeries.appendData(new DataPoint(mGraphDataPointsRt, Integer.parseInt(extraData)), true, 40);
                 mGraphDataPointsRt += 1;
