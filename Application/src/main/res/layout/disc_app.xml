@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:id="@+id/led_enable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/led_enable"
+        android:onClick="ledEnableOnClick" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/led_blink_rate"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="number"
+            android:text="@string/blank"
+            android:hint="@string/led_blink_rate"/>
+
+        <Button
+            android:id="@+id/led_blink_rate_w"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/write"
+            android:onClick="ledBlinkRateWOnClick"/>
+
+        <Button
+            android:id="@+id/led_blink_rate_r"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/read"
+            android:onClick="ledBlinkRateROnClick"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/led_duration"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="number"
+            android:text="@string/blank"
+            android:hint="@string/led_duration"/>
+
+        <Button
+            android:id="@+id/led_duration_w"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/write"
+            android:onClick="ledDurationWOnClick"/>
+
+        <Button
+            android:id="@+id/led_duration_r"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/read"
+            android:onClick="ledDurationROnClick"/>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/speaker_enable"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/speaker_enable"
+        android:onClick="speakerEnableOnClick"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/speaker_pitch"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="number"
+            android:hint="@string/speaker_pitch"/>
+
+        <Button
+            android:id="@+id/speaker_pitch_w"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/write"
+            android:onClick="speakerPitchWOnClick"/>
+
+        <Button
+            android:id="@+id/speaker_pitch_r"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/read"
+            android:onClick="speakerPitchROnClick"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/speaker_volume"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ems="10"
+            android:inputType="number"
+            android:hint="@string/speaker_volume"/>
+
+        <Button
+            android:id="@+id/speaker_volume_w"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/write"
+            android:onClick="speakerVolumeWOnClick"/>
+
+        <Button
+            android:id="@+id/speaker_volume_r"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/read"
+            android:onClick="speakerVolumeROnClick"/>
+    </LinearLayout>
+
+    <com.jjoe64.graphview.GraphView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:id="@+id/graph" />
+
+    <TextView
+        android:id="@+id/disc_stat_tof"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/disc_stat_tof"
+        android:textSize="30dp"/>
+
+</LinearLayout>
